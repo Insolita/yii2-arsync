@@ -622,6 +622,7 @@ class ArSyncBehaviorTest extends TestCase
 			{
 				$model = new $master;
 				verify_that($model->getBehavior('ArSyncBehavior'));
+
 				$model->setAttributes([
 					'name' => 'foo' . $i,
 					'foo'  => 'foo' . $i,
@@ -665,6 +666,7 @@ class ArSyncBehaviorTest extends TestCase
 			verify_that($master->save(false));
 			verify('slave not changed', $slave::find()->count())->equals(0);
 			verify('errors not empty', count($errors))->greaterThan(0);
+
 		});
 
 
@@ -820,6 +822,7 @@ class ArSyncBehaviorTest extends TestCase
 			$slaves = $slave::find()->where(['in', $slave->primaryKey(), $ids])->all();
 			foreach ($slaves as $updSlave)
 			{
+
 				$updSlave->foo = 'new_' . $updSlave->foo;
 				$updSlave->bar = 'new_' . $updSlave->bar;
 				$updSlave->save();
@@ -827,6 +830,7 @@ class ArSyncBehaviorTest extends TestCase
 			$masters = $master::find()->where(['in', $master->primaryKey(), $ids])->all();
 			foreach ($masters as $newMaster)
 			{
+
 				verify('records was updated', $newMaster->foo)->startsWith('new_');
 				verify('records was updated', $newMaster->bar)->startsWith('new_');
 			}
@@ -850,6 +854,7 @@ class ArSyncBehaviorTest extends TestCase
 			verify_that($master->save(false));
 			verify('slave not changed', $slave::find()->count())->equals(0);
 			verify('errors not empty', count($errors))->greaterThan(0);
+
 		});
 
 	}
